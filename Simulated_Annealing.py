@@ -56,7 +56,7 @@ def SA(individual):
             #print "接受..."
             #接受當前適應度
             curr_fitness = next_fitness
-        else:
+        #else:
             #print "不接受..."
     #print "適應度 :" + repr(curr_fitness)
     #print "當前狀態"
