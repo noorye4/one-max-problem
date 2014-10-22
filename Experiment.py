@@ -22,10 +22,10 @@ def Help():
       --TS :run 'Tabu Search'
       --SA :run 'Simulated Annealing'
       --GA :run 'Genetic Algorithm'
-      Usage :python Experiment.py -r 10 -t 10 --HC
-      Usage :python Experiment.py -r 10 -t 10 -l 7 --TS
-      Usage :python Experiment.py -r 10 -t 10 -T 100 --SA
-      Usage :python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA
+      Usage : python Experiment.py -r 10 -t 10 --HC
+      Usage : python Experiment.py -r 10 -t 10 -l 7 --TS
+      Usage : python Experiment.py -r 10 -t 10 -T 100 --SA
+      Usage : python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA
      """
 
 #繪製圖表

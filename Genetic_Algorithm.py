@@ -88,7 +88,7 @@ def Selection(eva_pop,quantity,analysis_fitness):
         #被選中則加入到"選擇數組"
         if X_prob > random.uniform(0.0,RouletteSize):
             selection_li.append(X.getGene())
-            print X.getGene()
+            #print X.getGene()
         #選滿種群大小則跳出
         if len(selection_li) == quantity:
             break
