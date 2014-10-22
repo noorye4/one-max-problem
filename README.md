@@ -33,4 +33,7 @@ Usage : python Experiment.py -r 10 -t 10 -T 100 --SA
 
 Usage : python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA
 
-![demo](image/HC.png)
+![demo HC](image/HC.png)
+![demo TS](image/TS.png)
+![demo SA](image/SA.png)
+![demo GA](image/GA.png)
