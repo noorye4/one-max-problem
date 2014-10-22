@@ -10,23 +10,25 @@ import sys,getopt
 
 #幫助
 def Help():
-    print " -r :Generate Array length"
-    print " -t :Select the number of generations"
-    print " -l :Tabu list length ,the parameter is required if adopt Tabu Search"
-    print " -T :Initial temperature ,the parameter is required if adopt Simulated Annealing"
-    print " -q :Population quantity ,the parameter is required if adopt Genetic Algorithm"
-    print " -c :Crossover probability recommend 0.6 ~ 0.8"
-    print " -m :Mutation probability recommend 0.01"
-    print " --HC :run 'Hill Climbing' "
-    print " --TS :run 'Tabu Search' "
-    print " --SA :run 'Simulated Annealing' "
-    print " --GA :run 'Genetic Algorithm' "
-    print " Usage :python Experiment.py -r 10 -t 10 --HC"
-    print " Usage :python Experiment.py -r 10 -t 10 -l 7 --TS"
-    print " Usage :python Experiment.py -r 10 -t 10 -T 100 --SA"
-    print " Usage :python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA"
-    
-#繪製圖表 
+    print """
+     " -r :Generate Array length"
+     " -t :Select the number of generations"
+     " -l :Tabu list length ,the parameter is required if adopt Tabu Search"
+     " -T :Initial temperature ,the parameter is required if adopt Simulated Annealing"
+     " -q :Population quantity ,the parameter is required if adopt Genetic Algorithm"
+     " -c :Crossover probability recommend 0.6 ~ 0.8"
+     " -m :Mutation probability recommend 0.01"
+     " --HC :run 'Hill Climbing' "
+     " --TS :run 'Tabu Search' "
+     " --SA :run 'Simulated Annealing' "
+     " --GA :run 'Genetic Algorithm' "
+     " Usage :python Experiment.py -r 10 -t 10 --HC"
+     " Usage :python Experiment.py -r 10 -t 10 -l 7 --TS"
+     " Usage :python Experiment.py -r 10 -t 10 -T 100 --SA"
+     " Usage :python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA"
+     """
+
+#繪製圖表
 def MatlabDraw(list):
     plt.plot(list)
     plt.xlabel('generation')
@@ -69,7 +71,7 @@ def exp_SA(arr,times,T):
     MatlabDraw(fitness_li)
 #遺傳演算 參數: 種群規模,基因(數組)長度,選代次數,交配機率,突變機率
 def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
-    total_fitness_li = [] 
+    total_fitness_li = []
     aver_fitness_li = []
     better_fitness_li = []
     file=open('GA_data.txt','w')
@@ -144,7 +146,7 @@ for op, value in opts:
     elif op == "--SA":
         print "Run Simulated Annealing..."
         print ""
-        exp_SA(arr,times,T)    
+        exp_SA(arr,times,T)
     elif op == "--GA":
         print "Run Genetic Algorithm..."
         print ""
