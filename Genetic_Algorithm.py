@@ -14,7 +14,7 @@ class Individual:
         return self.gene
     def getFitness(self):
         return self.fitness
-    
+
 #封裝資料 (群體適應度,平均適應度,個體最佳適應度)
 class Analysis_Fitness:
     def __init__(self,total_fitness,aver_fitness,better_fitness):
@@ -37,10 +37,10 @@ def Fitness(gene):
 #產生初始種群(參數:種群規模,數組長度)
 def Gen_pop(quantity,length):
     pop = []
-    print "初始種群"
+    #print "初始種群"
     for i in range(quantity):
         gene = Basic.Gen_RandArr(length)
-        print gene 
+        #print gene
         pop.append(gene)
     return pop
 #評估
@@ -62,9 +62,9 @@ def AnalysisFitness(eva_pop,quantity):
         total_fitness = i.getFitness() + total_fitness
     aver_fitness = total_fitness/quantity
     analysis_fitness = Analysis_Fitness(total_fitness,aver_fitness,better_fitness)
-    print "群體適應度" + repr(total_fitness)
-    print "平均適應度" + repr(aver_fitness) 
-    print "最佳適應度 " + repr(better_fitness)
+    #print "群體適應度" + repr(total_fitness)
+    #print "平均適應度" + repr(aver_fitness)
+    #print "最佳適應度 " + repr(better_fitness)
     return analysis_fitness
 
 #輪盤選擇(參數: 評估後的pop,種群規模,分析適應度)
@@ -78,7 +78,7 @@ def Selection(eva_pop,quantity,analysis_fitness):
     #輪盤最大值
     RouletteSize = better_fitness/total_fitness
     #輪盤選擇
-    print "被選擇的 :"
+    #print "被選擇的 :"
     i = 0
     #X表示單個個體
     while 1:
@@ -105,15 +105,15 @@ def Crossover(selection_li,length,cross_prob):
     #交配數組
     crossover_li = []
     #產生隨機交叉點
-    crpt = random.randint(0,length-1) 
-    print "交配 :"
+    crpt = random.randint(0,length-1)
+    #print "交配 :"
     index = 0
     for i in selection_li:
         if cross_prob > random.random():
             i_f = i[0:crpt]     #gene前半
             i_b = i[crpt:]      #gene後半
             #存放切片gene
-            temp_li.append(i_f) 
+            temp_li.append(i_f)
             temp_li.append(i_b)
             index += 1
             #1~2交配 3~4交配 ....以此類推
@@ -122,15 +122,15 @@ def Crossover(selection_li,length,cross_prob):
                 matingB = temp_li[1] + temp_li[2]
                 crossover_li.append(matingA)
                 crossover_li.append(matingB)
-                print matingA
-                print matingB
+                #print matingA
+                #print matingB
                 temp_li = []
                 crpt = random.randint(0,length-1) #產生隨機交叉點
         else:
             i_f = i[0:crpt]     #gene前半
             i_b = i[crpt:]      #gene後半
             #存放切片gene
-            temp_li.append(i_f) 
+            temp_li.append(i_f)
             temp_li.append(i_b)
             index += 1
             #1~2交配 3~4交配 ....以此類推
@@ -139,16 +139,16 @@ def Crossover(selection_li,length,cross_prob):
                 matingB = temp_li[2] + temp_li[3]
                 crossover_li.append(matingA)
                 crossover_li.append(matingB)
-                print "未交配"
-                print matingA
-                print matingB
+                #print "未交配"
+                #print matingA
+                #print matingB
                 temp_li = []
                 crpt = random.randint(0,length-1) #產生隨機交叉點
     return crossover_li
-            
+
 #突變 (參數: 交配數組,基因長度,突變機率)
 def Mutation(crossover_li,length,muta_prob):
-    print "突變 :"
+    #print "突變 :"
     mutation_li = []
     for i in crossover_li:
         if muta_prob > random.random():
@@ -157,13 +157,13 @@ def Mutation(crossover_li,length,muta_prob):
                 i[crpt] = 1
             else:
                 i[crpt] = 0
-            print i
+            #print i
             mutation_li.append(i)
         else:
             mutation_li.append(i)
     return mutation_li
 
-if __name__ == '__main__':
-    print ""
+#if __name__ == '__main__':
+    #print ""
 #main
 #do something

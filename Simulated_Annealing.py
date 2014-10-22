@@ -27,13 +27,13 @@ def Initial(arr,T):
     curr_fitness = Basic.Fitness(arr)
     #計數器歸0
     k = 0
-    print "初始溫度 " + repr(T) 
-    print "初始狀態..."
-    print arr
-    print "適應度 :" + repr(curr_fitness)
+    #print "初始溫度 " + repr(T)
+    #print "初始狀態..."
+    #print arr
+    #print "適應度 :" + repr(curr_fitness)
     #封裝
     individual = Individual(arr,curr_fitness,T,k)
-    return individual 
+    return individual
 #模擬退火
 def SA(individual):
     arr = individual.getArr() #取得數組
@@ -51,23 +51,23 @@ def SA(individual):
         #根據機率決定是否接受
         P = math.exp(-(k/T))
         Rnd = random.random()
-        print "P " + repr(P) + "  " + "Rnd " + repr(Rnd)
+        #print "P " + repr(P) + "  " + "Rnd " + repr(Rnd)
         if P > Rnd:
-            print "接受..."
+            #print "接受..."
             #接受當前適應度
             curr_fitness = next_fitness
         else:
-            print "不接受..."
-    print "適應度 :" + repr(curr_fitness)
-    print "當前狀態" 
-    print arr 
-    print "當前溫度" + repr(T)
+            #print "不接受..."
+    #print "適應度 :" + repr(curr_fitness)
+    #print "當前狀態"
+    #print arr
+    #print "當前溫度" + repr(T)
     k +=1
     #封裝
     individual = Individual(arr,curr_fitness,T,k)
     return  individual
 
-if __name__ == '__main__':
-    print ""
+#if __name__ == '__main__':
+    #print ""
 
 

@@ -52,12 +52,12 @@ def Initial(arr,tabu_len):
         tabu_li.append(0)
     #取得適應度
     curr_fitness = Basic.Fitness(arr)
-    print "初始狀態..."
-    print arr
-    print "適應度 :" + repr(curr_fitness)
+    #print "初始狀態..."
+    #print arr
+    #print "適應度 :" + repr(curr_fitness)
     #封裝
     individual = Individual(arr,curr_fitness,tabu_li)
-    return individual 
+    return individual
 #禁忌搜尋
 def TS(individual):
     #取得禁忌表
@@ -81,14 +81,14 @@ def TS(individual):
     #附近狀態是否更好
     if next_fitness > curr_fitness:
         curr_fitness = next_fitness
-    print "當前狀態" 
-    print arr
-    print "適應度 :" + repr(curr_fitness)
-    print "Tabu_list"
-    print tabu_li
+    #print "當前狀態"
+    #print arr
+    #print "適應度 :" + repr(curr_fitness)
+    #print "Tabu_list"
+    #print tabu_li
     #封裝
     individual = Individual(arr,curr_fitness,tabu_li)
     return individual
-if __name__ == '__main__':
-    print ""
+#if __name__ == '__main__':
+    #print ""
 #do something
