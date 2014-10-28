@@ -4,7 +4,7 @@ import random
 
 #產生隨機包含0,1 數組
 def Gen_RandArr(size):
-    arr = [] 
+    arr = []
     for i in range(size):
         x = random.randint(0,1)
         arr.append(x)
@@ -25,7 +25,7 @@ def Fitness(arr):
     counter = 0.0
     for i in arr:
         counter +=1.0
-        if i == 0 :  
+        if i == 0 :
             fitness += 1.0
     return fitness
 
@@ -38,5 +38,3 @@ def BitChange(arr):
         arr[crpt] = 0
     return arr
 
-if __name__ == '__main__':
-    print ""

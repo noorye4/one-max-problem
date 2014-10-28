@@ -11,16 +11,6 @@ class Individual:
         self.fitness = fitness
         self.T = T
         self.k = k
-    def __repr__(self):
-        return repr((self.arr,self.fitness,self.T,self.k))
-    def getArr(self):
-        return self.arr
-    def getFitness(self):
-        return self.fitness
-    def getTemp(self):
-        return self.T
-    def getK(self):
-        return self.k
 #初始設定
 def Initial(arr,T):
     #取得適應度
@@ -36,10 +26,10 @@ def Initial(arr,T):
     return individual
 #模擬退火
 def SA(individual):
-    arr = individual.getArr() #取得數組
-    curr_fitness = individual.getFitness() #取得適應度
-    T = individual.getTemp() #取得溫度
-    k = individual.getK() #取得評估次數
+    arr = individual.arr
+    curr_fitness = individual.fitness
+    T = individual.T
+    k = individual.k
     #取得附近狀態(隨機更改bit為0 or 1)
     arr = Basic.BitChange(arr)
     #評價附近狀態
@@ -66,8 +56,4 @@ def SA(individual):
     #封裝
     individual = Individual(arr,curr_fitness,T,k)
     return  individual
-
-#if __name__ == '__main__':
-    #print ""
-
 

@@ -8,12 +8,6 @@ class Individual:
     def __init__(self,gene,fitness):
         self.gene = gene
         self.fitness = fitness
-    def __repr__(self):
-        return repr((self.gene,self.fitness))
-    def getGene(self):
-        return self.gene
-    def getFitness(self):
-        return self.fitness
 
 #封裝資料 (群體適應度,平均適應度,個體最佳適應度)
 class Analysis_Fitness:
@@ -21,14 +15,6 @@ class Analysis_Fitness:
         self.total_fitness = total_fitness
         self.aver_fitness = aver_fitness
         self.better_fitness = better_fitness
-    def __repr__(self):
-        return repr((self.total_fitness,self.aver_fitness,self.better_fitness))
-    def getTotalFitness(self):
-        return self.total_fitness
-    def getAverFitness(self):
-        return self.aver_fitness
-    def getBetterFitness(self):
-        return self.better_fitness
 #適應度函數
 def Fitness(gene):
     fitness = Basic.Fitness(gene)
@@ -57,9 +43,9 @@ def AnalysisFitness(eva_pop,quantity):
     total_fitness = 0.0
     better_fitness = 0.0
     for i in eva_pop:
-        if i.getFitness() > better_fitness:
-            better_fitness = i.getFitness()
-        total_fitness = i.getFitness() + total_fitness
+        if i.fitness > better_fitness:
+            better_fitness = i.fitness
+        total_fitness = i.fitness + total_fitness
     aver_fitness = total_fitness/quantity
     analysis_fitness = Analysis_Fitness(total_fitness,aver_fitness,better_fitness)
     #print "群體適應度" + repr(total_fitness)
@@ -72,9 +58,9 @@ def Selection(eva_pop,quantity,analysis_fitness):
     #設定"選擇數組"為空
     selection_li = []
     #取得最個體最佳適應度
-    better_fitness = analysis_fitness.getBetterFitness()
+    better_fitness = analysis_fitness.better_fitness
     #取得群體適應度
-    total_fitness = analysis_fitness.getTotalFitness()
+    total_fitness = analysis_fitness.total_fitness
     #輪盤最大值
     RouletteSize = better_fitness/total_fitness
     #輪盤選擇
@@ -83,11 +69,11 @@ def Selection(eva_pop,quantity,analysis_fitness):
     #X表示單個個體
     while 1:
         X = eva_pop[i]
-        X_fitness = X.getFitness() #取得個體適應度
+        X_fitness = X.fitness
         X_prob = X_fitness/total_fitness #計算該個體被選中的機率
         #被選中則加入到"選擇數組"
         if X_prob > random.uniform(0.0,RouletteSize):
-            selection_li.append(X.getGene())
+            selection_li.append(X.gene)
             #print X.getGene()
         #選滿種群大小則跳出
         if len(selection_li) == quantity:
@@ -163,7 +149,3 @@ def Mutation(crossover_li,length,muta_prob):
             mutation_li.append(i)
     return mutation_li
 
-#if __name__ == '__main__':
-    #print ""
-#main
-#do something

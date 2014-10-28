@@ -43,8 +43,8 @@ def exp_HC(arr,times):
     file=open('HC_data.txt','w')
     for i in range(times):
         individual = Hill_Climbing.HC(individual)
-        file.write(repr(individual.getFitness()) + "\n")
-        fitness_li.append(individual.getFitness())
+        file.write(repr(individual.fitness) + "\n")
+        fitness_li.append(individual.fitness)
     file.close()
     MatlabDraw(fitness_li)
 #禁忌搜尋 參數:數組,選代次數,禁忌表長度
@@ -54,8 +54,8 @@ def exp_TS(arr,times,tabu_len):
     file=open('TS_data.txt','w')
     for i in range(times):
         individual = Tabu_Search.TS(individual)
-        file.write(repr(individual.getFitness()) + "\n")
-        fitness_li.append(individual.getFitness())
+        file.write(repr(individual.fitness) + "\n")
+        fitness_li.append(individual.fitness)
     file.close()
     MatlabDraw(fitness_li)
 #模擬退火 參數: 數組,選代次數,初始溫度
@@ -65,8 +65,8 @@ def exp_SA(arr,times,T):
     file=open('SA_data.txt','w')
     for i in range(times):
         individual = Simulated_Annealing.SA(individual)
-        file.write(repr(individual.getFitness()) + "\n")
-        fitness_li.append(individual.getFitness())
+        file.write(repr(individual.fitness) + "\n")
+        fitness_li.append(individual.fitness)
     file.close()
     MatlabDraw(fitness_li)
 #遺傳演算 參數: 種群規模,基因(數組)長度,選代次數,交配機率,突變機率
@@ -76,7 +76,7 @@ def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
     better_fitness_li = []
     file=open('GA_data.txt','w')
     x = 1
-    print "第" + repr(x) + "代"
+    #print "第" + repr(x) + "代"
     #第一代
     pop = Genetic_Algorithm.Gen_pop(quantity,gene_length)
     x +=1
@@ -86,10 +86,10 @@ def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
         eva_pop = Genetic_Algorithm.Evaluate(pop)
         #分析
         analysis_fitness = Genetic_Algorithm.AnalysisFitness(eva_pop,quantity)
-        total_fitness_li.append(analysis_fitness.getTotalFitness())
-        aver_fitness_li.append(analysis_fitness.getAverFitness())
-        file.write(repr(analysis_fitness.getAverFitness()) + "\n")
-        better_fitness_li.append(analysis_fitness.getBetterFitness())
+        total_fitness_li.append(analysis_fitness.total_fitness)
+        aver_fitness_li.append(analysis_fitness.aver_fitness)
+        file.write(repr(analysis_fitness.aver_fitness) + "\n")
+        better_fitness_li.append(analysis_fitness.better_fitness)
         #選擇
         selection_li = Genetic_Algorithm.Selection(eva_pop,quantity,analysis_fitness)
         #交配
@@ -98,7 +98,7 @@ def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
         mutation_li = Genetic_Algorithm.Mutation(crossover_li,gene_length,muta_prob)
         #更換種群
         pop = mutation_li
-        print "第" + repr(x) + "代"
+        #print "第" + repr(x) + "代"
         x +=1
     file.close()
     #matlab繪圖

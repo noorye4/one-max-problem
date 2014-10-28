@@ -9,26 +9,12 @@ class Individual:
         self.arr = arr
         self.fitness = fitness
         self.tabu_li = tabu_li
-    def __repr__(self):
-        return repr((self.arr,self.fitness,self.tabu_li))
-    def getArr(self):
-        return self.arr
-    def getFitness(self):
-        return self.fitness
-    def getTabuList(self):
-        return self.tabu_li
 
 #記憶結構
 class ChangePoint:
     def __init__(self,arr,memcrpt):
         self.arr = arr
         self.memcrpt = memcrpt
-    def __repr__(self):
-        return repr((self.arr,self.memcrpt))
-    def getArr(self):
-        return self.arr
-    def getMemcrpt(self):
-        return self.memcrpt
 
 #更改數組其中一個bit為0 or 1,並紀錄更改位置
 def RecordBitChange(arr,tabu_li):
@@ -61,21 +47,21 @@ def Initial(arr,tabu_len):
 #禁忌搜尋
 def TS(individual):
     #取得禁忌表
-    tabu_li = individual.getTabuList()
+    tabu_li = individual.tabu_li
     #取得當前數組
-    arr = individual.getArr()
+    arr = individual.arr
     #取得當前評價
-    curr_fitness = individual.getFitness()
+    curr_fitness = individual.fitness
     #取得禁忌對象
     change_point = RecordBitChange(arr,tabu_li)
     #取得上次更改bit的位置
-    crpt = change_point.getMemcrpt()
+    crpt = change_point.memcrpt
     #加入到禁忌表
     tabu_li.insert(0,crpt)
     #釋放最早加入的位置
     tabu_li.pop()
     #取得附近狀態
-    arr = change_point.getArr()
+    arr = change_point.arr
     #評價附近狀態
     next_fitness = Basic.Fitness(arr)
     #附近狀態是否更好
@@ -89,6 +75,3 @@ def TS(individual):
     #封裝
     individual = Individual(arr,curr_fitness,tabu_li)
     return individual
-#if __name__ == '__main__':
-    #print ""
-#do something

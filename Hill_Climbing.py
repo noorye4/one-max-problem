@@ -7,12 +7,6 @@ class Individual:
     def __init__(self,arr,fitness):
         self.arr = arr
         self.fitness = fitness
-    def __repr__(self):
-        return repr((self.arr,self.fitness))
-    def getArr(self):
-        return self.arr
-    def getFitness(self):
-        return self.fitness
 
 #初始設定
 def Initial(arr):
@@ -28,9 +22,9 @@ def Initial(arr):
 #爬山
 def HC(individual):
     #取得數組
-    arr = individual.getArr()
+    arr = individual.arr
     #取得適應度
-    curr_fitness = individual.getFitness()
+    curr_fitness = individual.fitness
     #取得附近狀態
     arr = Basic.BitChange(arr)
     #評價附近狀態
