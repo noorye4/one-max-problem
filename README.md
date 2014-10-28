@@ -3,27 +3,27 @@ metaheuristicks
 ##Usage
 python Experiment.py  -h
 
--r :Generate Array length
+    -r :Generate Array length
 
--t :Select the number of generations
+    -t :Select the number of generations
 
--l :Tabu list length ,the parameter is required if adopt Tabu Search
+    -l :Tabu list length ,the parameter is required if adopt Tabu Search
 
--T :Initial temperature ,the parameter is required if adopt Simulated Annealing
+    -T :Initial temperature ,the parameter is required if adopt Simulated Annealing
 
--q :Population quantity ,the parameter is required if adopt Genetic Algorithm
+    -q :Population quantity ,the parameter is required if adopt Genetic Algorithm
 
--c :Crossover probability recommend 0.6 ~ 0.8
+    -c :Crossover probability recommend 0.6 ~ 0.8
 
--m :Mutation probability recommend 0.01
+    -m :Mutation probability recommend 0.01
 
---HC :run 'Hill Climbing'
+    --HC :run 'Hill Climbing'
 
---TS :run 'Tabu Search'
+    --TS :run 'Tabu Search'
 
---SA :run 'Simulated Annealing'
+    --SA :run 'Simulated Annealing'
 
---GA :run 'Genetic Algorithm'
+    --GA :run 'Genetic Algorithm'
 
 Usage : python Experiment.py -r 10 -t 10 --HC
 
