@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
-import Basic
+from DataOperating import *
 import random
+import sys
 
 #封裝資料 (數組,適應度)
 class Individual:
@@ -15,26 +16,30 @@ class Analysis_Fitness:
         self.total_fitness = total_fitness
         self.aver_fitness = aver_fitness
         self.better_fitness = better_fitness
-#適應度函數
-def Fitness(gene):
-    fitness = Basic.Fitness(gene)
-    return fitness
 
 #產生初始種群(參數:種群規模,數組長度)
-def Gen_pop(quantity,length):
+def gen_pop(arr,quantity,length):
+    quantity -= 1
     pop = []
-    #print "初始種群"
     for i in range(quantity):
-        gene = Basic.Gen_RandArr(length)
-        #print gene
+        gene = gen_other_gene(length)
         pop.append(gene)
+    pop.append(arr)
+
     return pop
+
+def gen_other_gene(size):
+    arr = []
+    for i in range(size):
+        x = random.randint(0,1)
+        arr.append(x)
+    return arr
 #評估
 def Evaluate(pop):
     eva_pop = []
-    for i in pop:
-        fitness = Fitness(i)
-        individual = Individual(i,fitness)
+    for gene in pop:
+        fitness = evaluate(gene)
+        individual = Individual(gene,fitness)
         eva_pop.append(individual)
     return eva_pop
 
@@ -62,7 +67,7 @@ def Selection(eva_pop,quantity,analysis_fitness):
     #取得群體適應度
     total_fitness = analysis_fitness.total_fitness
     #輪盤最大值
-    RouletteSize = better_fitness/total_fitness
+    roulette_size = better_fitness/total_fitness
     #輪盤選擇
     #print "被選擇的 :"
     i = 0
@@ -72,7 +77,7 @@ def Selection(eva_pop,quantity,analysis_fitness):
         X_fitness = X.fitness
         X_prob = X_fitness/total_fitness #計算該個體被選中的機率
         #被選中則加入到"選擇數組"
-        if X_prob > random.uniform(0.0,RouletteSize):
+        if X_prob > random.uniform(0.0,roulette_size):
             selection_li.append(X.gene)
             #print X.getGene()
         #選滿種群大小則跳出
@@ -92,7 +97,6 @@ def Crossover(selection_li,length,cross_prob):
     crossover_li = []
     #產生隨機交叉點
     crpt = random.randint(0,length-1)
-    #print "交配 :"
     index = 0
     for i in selection_li:
         if cross_prob > random.random():
@@ -108,8 +112,6 @@ def Crossover(selection_li,length,cross_prob):
                 matingB = temp_li[1] + temp_li[2]
                 crossover_li.append(matingA)
                 crossover_li.append(matingB)
-                #print matingA
-                #print matingB
                 temp_li = []
                 crpt = random.randint(0,length-1) #產生隨機交叉點
         else:
@@ -125,9 +127,6 @@ def Crossover(selection_li,length,cross_prob):
                 matingB = temp_li[2] + temp_li[3]
                 crossover_li.append(matingA)
                 crossover_li.append(matingB)
-                #print "未交配"
-                #print matingA
-                #print matingB
                 temp_li = []
                 crpt = random.randint(0,length-1) #產生隨機交叉點
     return crossover_li
@@ -149,3 +148,40 @@ def Mutation(crossover_li,length,muta_prob):
             mutation_li.append(i)
     return mutation_li
 
+#遺傳演算 參數: 種群規模,基因(數組)長度,選代次數,交配機率,突變機率
+def loop(arr,quantity,gene_length,times,cross_prob,muta_prob):
+    total_fitness_li = []
+    aver_fitness_li = []
+    best_fitness = []
+    file=open('GA_data.txt','w')
+    pop = gen_pop(arr,quantity,gene_length)
+    #重複 選擇 交叉 突變
+    for i in range(times):
+        #評估
+        eva_pop = Evaluate(pop)
+        #分析
+        analysis_fitness = AnalysisFitness(eva_pop,quantity)
+        total_fitness_li.append(analysis_fitness.total_fitness)
+        aver_fitness_li.append(analysis_fitness.aver_fitness)
+        file.write(repr(analysis_fitness.better_fitness) + "\n")
+        best_fitness.append(analysis_fitness.better_fitness)
+        #選擇
+        selection_li = Selection(eva_pop,quantity,analysis_fitness)
+        #交配
+        crossover_li = Crossover(selection_li,gene_length,cross_prob)
+        #突變
+        mutation_li = Mutation(crossover_li,gene_length,muta_prob)
+        #更換種群
+        pop = mutation_li
+    file.close()
+    #matlab繪圖
+    graph_draw(aver_fitness_li)
+
+"""main"""
+arr = read_arr()
+quantity = 20
+gene_length = len(arr)
+times = 1000
+cross_prob = 0.75
+muta_prob = 0.01
+loop(arr,quantity,gene_length,times,cross_prob,muta_prob)

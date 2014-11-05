@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 import Basic
+
 import Hill_Climbing
 import Tabu_Search
 import Simulated_Annealing
 import Genetic_Algorithm
+
 import matplotlib.pyplot as plt
-import sys,getopt
+import sys
+import getopt
 
 #幫助
 def Help():
@@ -22,10 +25,10 @@ def Help():
       --TS :run 'Tabu Search'
       --SA :run 'Simulated Annealing'
       --GA :run 'Genetic Algorithm'
-      Usage : python Experiment.py -r 10 -t 10 --HC
-      Usage : python Experiment.py -r 10 -t 10 -l 7 --TS
-      Usage : python Experiment.py -r 10 -t 10 -T 100 --SA
-      Usage : python Experiment.py -r 10 -t 10 -q 4 -c 0.75 -m 0.01 --GA
+      Usage : python Experiment.py -r 200 -t 1000 --HC
+      Usage : python Experiment.py -r 200 -t 1000 -l 7 --TS
+      Usage : python Experiment.py -r 200 -t 1000 -T 100 --SA
+      Usage : python Experiment.py -r 200 -t 1000 -q 20 -c 0.75 -m 0.01 --GA
      """
 
 #繪製圖表
@@ -73,13 +76,9 @@ def exp_SA(arr,times,T):
 def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
     total_fitness_li = []
     aver_fitness_li = []
-    better_fitness_li = []
+    best_fitness = []
     file=open('GA_data.txt','w')
-    x = 1
-    #print "第" + repr(x) + "代"
-    #第一代
     pop = Genetic_Algorithm.Gen_pop(quantity,gene_length)
-    x +=1
     #重複 選擇 交叉 突變
     for i in range(times):
         #評估
@@ -89,7 +88,7 @@ def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
         total_fitness_li.append(analysis_fitness.total_fitness)
         aver_fitness_li.append(analysis_fitness.aver_fitness)
         file.write(repr(analysis_fitness.aver_fitness) + "\n")
-        better_fitness_li.append(analysis_fitness.better_fitness)
+        best_fitness.append(analysis_fitness.better_fitness)
         #選擇
         selection_li = Genetic_Algorithm.Selection(eva_pop,quantity,analysis_fitness)
         #交配
@@ -98,8 +97,6 @@ def exp_GA(quantity,gene_length,times,cross_prob,muta_prob):
         mutation_li = Genetic_Algorithm.Mutation(crossover_li,gene_length,muta_prob)
         #更換種群
         pop = mutation_li
-        #print "第" + repr(x) + "代"
-        x +=1
     file.close()
     #matlab繪圖
     MatlabDraw(aver_fitness_li)

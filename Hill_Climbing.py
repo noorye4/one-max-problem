@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
-import Basic
+from DataOperating import *
+import sys
 
 #封裝資料 (數組,適應度)
 class Individual:
@@ -8,36 +9,41 @@ class Individual:
         self.arr = arr
         self.fitness = fitness
 
-#初始設定
-def Initial(arr):
+def initial(arr):
     #取得適應度
-    curr_fitness = Basic.Fitness(arr)
-    #print "初始狀態..."
-    #print arr
-    #print "適應度 :" + repr(curr_fitness)
-    #封裝
+    curr_fitness = evaluate(arr)
     individual = Individual(arr,curr_fitness)
     return individual
 
-#爬山
-def HC(individual):
+def hill_climbing(individual):
     #取得數組
     arr = individual.arr
     #取得適應度
     curr_fitness = individual.fitness
     #取得附近狀態
-    arr = Basic.BitChange(arr)
+    arr = bit_change(arr)
     #評價附近狀態
-    next_fitness = Basic.Fitness(arr)
+    next_fitness = evaluate(arr)
     #附近狀態是否更好
     if next_fitness > curr_fitness:
         curr_fitness = next_fitness
-    #print "當前狀態"
-    #print arr
-    #print "適應度 :" + repr(curr_fitness)
-    #封裝
     individual = Individual(arr,curr_fitness)
     return individual
 
-#if __name__ == '__main__':
-    #print ""
+def loop(arr,times):
+    fitness_li = []
+    #資料初始化
+    individual = initial(arr)
+    file=open('hill_climbing_data.txt','w')
+    for i in range(times):
+        individual = hill_climbing(individual)
+        file.write(repr(individual.fitness) + "\n")
+        fitness_li.append(individual.fitness)
+    file.close()
+    graph_draw(fitness_li)
+
+"""main"""
+times = int(sys.argv[1])
+arr = read_arr()
+loop(arr,times)
+
