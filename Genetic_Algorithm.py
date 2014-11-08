@@ -4,18 +4,22 @@ from DataOperating import *
 import random
 import sys
 
-#封裝資料 (數組,適應度)
 class Individual:
+    """
+    wrap a individual data struture
+    """
     def __init__(self,gene,fitness):
         self.gene = gene
         self.fitness = fitness
 
-#封裝資料 (群體適應度,平均適應度,個體最佳適應度)
 class Analysis_Fitness:
-    def __init__(self,total_fitness,aver_fitness,better_fitness):
+    """
+    wrap a fitness  data struture
+    """
+    def __init__(self,total_fitness,aver_fitness,best_fitness):
         self.total_fitness = total_fitness
         self.aver_fitness = aver_fitness
-        self.better_fitness = better_fitness
+        self.best_fitness = best_fitness
 
 #產生初始種群(參數:種群規模,數組長度)
 def gen_pop(arr,quantity,length):
@@ -35,7 +39,7 @@ def gen_other_gene(size):
         arr.append(x)
     return arr
 #評估
-def Evaluate(pop):
+def evaluate_pop(pop):
     eva_pop = []
     for gene in pop:
         fitness = evaluate(gene)
@@ -46,28 +50,28 @@ def Evaluate(pop):
 #分析
 def AnalysisFitness(eva_pop,quantity):
     total_fitness = 0.0
-    better_fitness = 0.0
+    best_fitness = 0.0
     for i in eva_pop:
-        if i.fitness > better_fitness:
-            better_fitness = i.fitness
+        if i.fitness > best_fitness:
+            best_fitness = i.fitness
         total_fitness = i.fitness + total_fitness
     aver_fitness = total_fitness/quantity
-    analysis_fitness = Analysis_Fitness(total_fitness,aver_fitness,better_fitness)
+    analysis_fitness = Analysis_Fitness(total_fitness,aver_fitness,best_fitness)
     #print "群體適應度" + repr(total_fitness)
     #print "平均適應度" + repr(aver_fitness)
-    #print "最佳適應度 " + repr(better_fitness)
+    #print "最佳適應度 " + repr(best_fitness)
     return analysis_fitness
 
 #輪盤選擇(參數: 評估後的pop,種群規模,分析適應度)
-def Selection(eva_pop,quantity,analysis_fitness):
+def selection(eva_pop,quantity,analysis_fitness):
     #設定"選擇數組"為空
     selection_li = []
     #取得最個體最佳適應度
-    better_fitness = analysis_fitness.better_fitness
+    best_fitness = analysis_fitness.best_fitness
     #取得群體適應度
     total_fitness = analysis_fitness.total_fitness
     #輪盤最大值
-    roulette_size = better_fitness/total_fitness
+    roulette_size = best_fitness/total_fitness
     #輪盤選擇
     #print "被選擇的 :"
     i = 0
@@ -90,7 +94,7 @@ def Selection(eva_pop,quantity,analysis_fitness):
     return selection_li
 
 #隨機單點交叉(參數: 選擇數組,基因長度,交配機率)
-def Crossover(selection_li,length,cross_prob):
+def crossover(selection_li,length,cross_prob):
     #切片暫存
     temp_li = []
     #交配數組
@@ -132,7 +136,7 @@ def Crossover(selection_li,length,cross_prob):
     return crossover_li
 
 #突變 (參數: 交配數組,基因長度,突變機率)
-def Mutation(crossover_li,length,muta_prob):
+def mutation(crossover_li,length,muta_prob):
     #print "突變 :"
     mutation_li = []
     for i in crossover_li:
@@ -150,31 +154,37 @@ def Mutation(crossover_li,length,muta_prob):
 
 #遺傳演算 參數: 種群規模,基因(數組)長度,選代次數,交配機率,突變機率
 def loop(arr,quantity,gene_length,times,cross_prob,muta_prob):
+    """
+    parameters
+    arr is about raw input array or call they gene
+    quantity is about total gene
+    times is array
+
+    """
     total_fitness_li = []
     aver_fitness_li = []
     best_fitness = []
-    file=open('GA_data.txt','w')
+    file=open('genetic_algorithm_data.txt','w')
     pop = gen_pop(arr,quantity,gene_length)
     #重複 選擇 交叉 突變
     for i in range(times):
         #評估
-        eva_pop = Evaluate(pop)
+        eva_pop = evaluate_pop(pop)
         #分析
         analysis_fitness = AnalysisFitness(eva_pop,quantity)
         total_fitness_li.append(analysis_fitness.total_fitness)
         aver_fitness_li.append(analysis_fitness.aver_fitness)
-        file.write(repr(analysis_fitness.better_fitness) + "\n")
-        best_fitness.append(analysis_fitness.better_fitness)
+        file.write(repr(analysis_fitness.best_fitness) + "\n")
+        best_fitness.append(analysis_fitness.best_fitness)
         #選擇
-        selection_li = Selection(eva_pop,quantity,analysis_fitness)
+        selection_li = selection(eva_pop,quantity,analysis_fitness)
         #交配
-        crossover_li = Crossover(selection_li,gene_length,cross_prob)
+        crossover_li = crossover(selection_li,gene_length,cross_prob)
         #突變
-        mutation_li = Mutation(crossover_li,gene_length,muta_prob)
+        mutation_li = mutation(crossover_li,gene_length,muta_prob)
         #更換種群
         pop = mutation_li
     file.close()
-    #matlab繪圖
     graph_draw(aver_fitness_li)
 
 """main"""

@@ -4,8 +4,12 @@ import random
 from string import strip
 import matplotlib.pyplot as plt
 
-#產生隨機包含0,1 數組
+
 def gen_rnd_arr(size):
+    """
+    generate random array include 0 and 1
+    """
+
     file = open("random_array.txt","w")
     arr = []
     for i in range(size):
@@ -13,8 +17,11 @@ def gen_rnd_arr(size):
         file.write(repr(x))
         arr.append(x)
     file.close()
-#產生隨機點
+
 def Gen_RandNode(arr):
+    """
+    generate random index position array
+    """
     size = len(arr)
     node = random.randrange(size)
     while 1:
@@ -23,8 +30,11 @@ def Gen_RandNode(arr):
         else:
             break
     return node
-#適應度函數
+
 def evaluate(arr):
+    """
+    calc array total 0
+    """
     fitness = 0.0
     counter = 0.0
     for i in arr:
@@ -33,8 +43,10 @@ def evaluate(arr):
             fitness += 1.0
     return fitness
 
-#更改數組其中一個bit為0 or 1
 def bit_change(arr):
+    """
+    chagne array index to 1 or 0 randomly
+    """
     length = len(arr)
     #隨機取點
     crpt = random.randint(0,length-1)
@@ -43,6 +55,9 @@ def bit_change(arr):
     return arr
 
 def read_arr():
+    """
+    generate random array include 0 and 1
+    """
     f = open("random_array.txt","r")
     arr = []
     for i in f.readline():
@@ -52,8 +67,10 @@ def read_arr():
     print len(arr)
     return arr
 
-#繪製圖表
 def graph_draw(list):
+    """
+
+    """
     plt.plot(list)
     plt.xlabel('generation')
     plt.ylabel('fitness')
